@@ -1,0 +1,17 @@
+{
+  "name": "landing-moment",
+  "owner": {
+    "name": "Martín Olivero / IamAutom",
+    "url": "https://iamautom.com"
+  },
+  "metadata": {
+    "description": "The method behind landings that don't read as templates: one authored moment that makes the page's promise visible, a craft floor, and a cliche detector."
+  },
+  "plugins": [
+    {
+      "name": "landing-moment",
+      "source": "./",
+      "description": "Design landing pages around one authored moment derived from the copy — with a mechanical craft floor (contrast, measure, type scale, states) and a detector for the tells of an AI-built page. Four production case studies included."
+    }
+  ]
+}

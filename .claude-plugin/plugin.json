@@ -1,0 +1,26 @@
+{
+  "name": "landing-moment",
+  "version": "0.1.0",
+  "description": "Build landing pages that don't look like a template. One authored moment derived from the page's own argument — not an effect pulled from a component library — plus a mechanical craft floor and a cliche detector that flags what gives an AI-built page away.",
+  "author": {
+    "name": "Martín Olivero / IamAutom",
+    "url": "https://iamautom.com"
+  },
+  "homepage": "https://github.com/MartinOlivero/landing-moment",
+  "repository": "https://github.com/MartinOlivero/landing-moment",
+  "license": "MIT",
+  "keywords": [
+    "claude-code",
+    "claude-code-plugin",
+    "claude-skills",
+    "landing-page",
+    "web-design",
+    "frontend",
+    "css",
+    "animation",
+    "canvas",
+    "design-system",
+    "accessibility",
+    "anti-slop"
+  ]
+}
