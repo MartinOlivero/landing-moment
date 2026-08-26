@@ -10,6 +10,11 @@ sentence that carries the page's promise, and build the single moment that makes
 > The skill body is in Spanish (that's the author's working language). The method, the code and the
 > tools are language-agnostic — Claude will apply them to a page in any language.
 
+> **New in 0.2.0** — if you installed 0.1.0, run `/plugin update landing-moment`. It fixes a
+> documented command that never ran, adds a copy gate before any design happens, and adds
+> `audit.mjs`: the craft floor measured on the rendered page in a real browser, with no
+> dependencies. Full list in [CHANGELOG.md](CHANGELOG.md).
+
 ## Install
 
 ```
