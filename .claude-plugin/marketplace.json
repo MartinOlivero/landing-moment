@@ -11,7 +11,7 @@
     {
       "name": "landing-moment",
       "source": "./",
-      "description": "Design landing pages around one authored moment derived from the copy — with a mechanical craft floor (contrast, measure, type scale, states) and a detector for the tells of an AI-built page. Four production case studies included."
+      "description": "Design landing pages around one authored moment derived from the copy, with a copy gate, a mechanical craft floor, and two zero-dependency tools: a cliche detector over the source and an auditor that measures the rendered page in a real Chrome. Four production case studies plus a full worked example."
     }
   ]
 }

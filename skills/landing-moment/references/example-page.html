@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Las horas que no facturaste — ejemplo del método</title>
+<meta name="description" content="Página de ejemplo de la skill landing-moment: un momento derivado del argumento de la página, con el piso mecánico en verde.">
+
+<!--
+  ════════════════════════════════════════════════════════════════════════════
+  ESTA PÁGINA ES EL MÉTODO, EJECUTADO. Producto inventado, a propósito: lo que
+  hay que copiar es el mecanismo, no el contenido.
+
+  La cadena, paso por paso:
+
+    1. La frase        "Trabajaste 47 horas. Facturaste 31."
+    2. El sustantivo    las horas de la semana — se pueden dibujar
+    3. La acción que    aparecer: las 16 que no se facturaron están, pero
+       les falta         nadie las ve
+    4. El momento      una semana dibujada como la ve el reloj. Arranca
+                        mostrando sólo lo facturado. Un barrido cruza UNA VEZ
+                        y a su paso aparecen las horas que faltaban, mientras
+                        el contador sube de 31 a 47 y aparece la plata.
+
+  Si sacás el barrido, la página dice lo mismo pero deja de demostrarlo. Ése
+  es el filtro: el momento tiene que ser el argumento, no la decoración.
+
+  El mismo gesto se repite abajo (regla 2): el separador entre secciones es un
+  tramo de la misma grilla, y los tres números de "qué se recupera" se
+  encienden con el mismo barrido.
+  ════════════════════════════════════════════════════════════════════════════
+-->
+
+<!-- Tipografía del catálogo del piso mecánico, mundo "técnico / instrumentos".
+     Archivo para el display, Barlow para el texto, JetBrains Mono para TODO lo
+     que sea un dato (horas, importes). Si el proyecto tiene CSP con
+     font-src 'self', esto queda bloqueado en silencio: bajá los .woff2 y
+     servilos del propio dominio. El auditor te avisa si no cargó. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;800&family=Barlow:wght@400;500&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2317140f'/><rect x='7' y='8' width='5' height='16' rx='1' fill='%23f5f2ec'/><rect x='14' y='8' width='5' height='16' rx='1' fill='%23a8410a'/><rect x='21' y='8' width='4' height='16' rx='1' fill='%23f5f2ec'/></svg>">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+/* ─── El mundo: una planilla de taller. Papel, tinta, y el ámbar reservado
+       para una sola cosa: lo que no se cobró. Un acento que significa algo. ── */
+:root {
+  --papel:   #f5f2ec;
+  --papel-2: #ebe6dc;
+  --linea:   #d6cec0;
+  --tinta:   #17140f;
+  --tinta-2: #57503f;   /* 6.3:1 sobre papel: el secundario tiene que leerse */
+  --ambar:   #a8410a;   /* 6.0:1 sobre papel */
+  --verde:   #1f5c3d;
+  --display: Archivo, 'Arial Black', system-ui, sans-serif;
+  --texto:   Barlow, 'Helvetica Neue', system-ui, sans-serif;
+  --mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ancho:   1080px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--papel); color: var(--tinta);
+  font: 400 17px/1.6 var(--texto); -webkit-font-smoothing: antialiased;
+}
+.centro { width: min(100% - 40px, var(--ancho)); margin-inline: auto; }
+h1, h2, h3 { font-family: var(--display); font-weight: 800; letter-spacing: -.03em; line-height: 1.05; margin: 0; }
+p { margin: 0; max-width: 62ch; }               /* medida de línea, no ancho de sección */
+a { color: inherit; }
+
+/* Foco de teclado: se cambia el estilo, nunca se apaga. */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid var(--ambar); outline-offset: 3px; border-radius: 2px;
+}
+
+/* ─── Hero ────────────────────────────────────────────────────────────────── */
+.hero { padding: 72px 0 40px; }
+.hero h1 { font-size: clamp(38px, 6.2vw, 76px); max-width: 16ch; }
+.hero h1 em { font-style: normal; color: var(--ambar); }
+.bajada { margin-top: 22px; color: var(--tinta-2); font-size: 19px; }
+
+/* ─── EL MOMENTO: la semana, dibujada ─────────────────────────────────────────
+   Siete columnas, catorce franjas horarias. Los bloques facturados están
+   siempre. Los NO facturados existen en el DOM desde el principio (por eso la
+   página funciona sin JS) y se ocultan sólo cuando hay JS. */
+.semana {
+  position: relative; margin-top: 44px; padding: 20px;
+  background: var(--papel-2); border: 1px solid var(--linea); border-radius: 10px;
+  overflow: hidden;
+}
+.horas {
+  display: grid; grid-template-columns: 46px repeat(14, 1fr); gap: 4px;
+  margin-bottom: 8px; font: 400 11px/1 var(--mono); color: var(--tinta-2);
+}
+.horas span:nth-child(even) { visibility: hidden; }      /* rotular cada dos, o no entra */
+.grilla { display: grid; gap: 5px; }
+.dia { display: grid; grid-template-columns: 46px repeat(14, 1fr); gap: 4px; align-items: center; }
+.dia .rotulo {
+  font: 700 11px/1 var(--mono); letter-spacing: .08em;
+  color: var(--tinta-2); text-transform: uppercase;
+}
+.bloque { height: 22px; border-radius: 2px; background: transparent; }
+.bloque.cobrada  { background: var(--tinta); }
+.bloque.perdida  { background: var(--ambar); }
+.js .bloque.perdida { opacity: 0; }              /* escondido sólo si hay JS */
+.js .semana.corrio .bloque.perdida {
+  opacity: 1; transition: opacity .45s ease var(--retardo, 0s);
+}
+
+/* El barrido. Va por encima con mix-blend-mode para leerse como luz cruzando
+   la escena y no como una capa más. El filo va adelante, que es donde el ojo
+   espera el borde del barrido. */
+.barrido {
+  position: absolute; top: 0; bottom: 0; width: 180px; left: 0;
+  pointer-events: none; opacity: 0; mix-blend-mode: multiply;
+  background: linear-gradient(90deg, rgba(168,65,10,0) 0%, rgba(168,65,10,.06) 70%, rgba(168,65,10,.14) 100%);
+  border-right: 1px solid rgba(168,65,10,.55);
+}
+.js .semana.corrio .barrido { animation: cruzar 1.5s linear .15s both; }
+@keyframes cruzar {
+  from { opacity: 1; transform: translateX(-180px); }
+  to   { opacity: 0; transform: translateX(calc(100% + 1080px)); }
+}
+
+/* El marcador: las horas y la plata. Todo dato va en mono. */
+.marcador {
+  display: flex; flex-wrap: wrap; gap: 10px 36px; align-items: baseline;
+  margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--linea);
+}
+.marcador .cifra { font: 700 clamp(30px, 4.4vw, 46px)/1 var(--mono); letter-spacing: -.02em; }
+.marcador .cifra.perdido { color: var(--ambar); }
+.marcador .que { display: block; margin-top: 6px; font-size: 14px; color: var(--tinta-2); }
+
+/* ─── El gesto se repite: el separador ES un tramo de la misma grilla ──────── */
+.separador { display: flex; gap: 3px; margin: 64px 0; }
+.separador i { flex: 1; height: 6px; border-radius: 2px; background: var(--linea); }
+.separador i.marca { background: var(--ambar); }
+
+/* ─── Secciones ───────────────────────────────────────────────────────────── */
+section h2 { font-size: clamp(26px, 3.4vw, 38px); max-width: 20ch; }
+section h2 + p { margin-top: 16px; color: var(--tinta-2); }
+/* Tres filas, no tres cards: cada una lleva a la izquierda un tramo de la MISMA
+   grilla del hero, con tantos bloques ámbar como dice su número. El gesto del
+   momento se repite y de paso la forma carga la información. */
+.pasos { margin-top: 36px; border-top: 1px solid var(--linea); }
+.paso { display: grid; grid-template-columns: 132px 1fr; gap: 24px; align-items: start;
+  padding: 24px 0; border-bottom: 1px solid var(--linea); }
+.paso .tramo { display: flex; gap: 3px; padding-top: 4px; }
+.paso .tramo i { width: 7px; height: 20px; border-radius: 2px; background: var(--linea); }
+.paso .tramo i.marca { background: var(--ambar); }
+.paso h3 { font-size: 19px; font-weight: 600; }
+.paso p { font-size: 15.5px; color: var(--tinta-2); margin-top: 8px; }
+@media (max-width: 640px) { .paso { grid-template-columns: 1fr; gap: 12px; } }
+
+.precio { margin: 72px 0; padding: 32px; border: 1px solid var(--linea); border-radius: 10px; background: var(--papel-2); }
+.precio .n { font: 700 44px/1 var(--mono); }
+.precio .n span { font-size: 17px; color: var(--tinta-2); font-weight: 400; }
+.cta {
+  display: inline-block; margin-top: 24px; padding: 15px 28px; border-radius: 6px;
+  background: var(--tinta); color: var(--papel); text-decoration: none;
+  font-family: var(--display); font-weight: 600; font-size: 16px;
+  transition: transform .15s ease;
+}
+.cta:hover { transform: translateY(-2px); }
+footer p, footer { max-width: 68ch; }
+footer { padding: 48px 0 64px; border-top: 1px solid var(--linea); color: var(--tinta-2); font-size: 14.5px; }
+
+/* ─── Degradar ────────────────────────────────────────────────────────────── */
+/* Reduced motion: se muestra el ESTADO FINAL, no una versión mocha. El chiste
+   visual se pierde; la información, no. */
+@media (prefers-reduced-motion: reduce) {
+  .js .bloque.perdida { opacity: 1; transition: none; }
+  .js .semana.corrio .barrido { animation: none; opacity: 0; }
+}
+/* Mobile: el barrido necesita un ancho que en 390px no existe. Se APAGA, no se
+   encoge — un efecto apretado se ve peor que ninguno — y la semana se muestra
+   completa desde el principio. */
+@media (max-width: 640px) {
+  .hero { padding-top: 48px; }
+  .js .bloque.perdida { opacity: 1; }
+  .barrido { display: none; }
+  .bloque { height: 15px; }
+  .grilla { gap: 4px; }
+}
+</style>
+</head>
+<body>
+
+<main class="centro">
+
+  <section class="hero">
+    <h1>Trabajaste 47 horas esta semana. <em>Facturaste 31.</em></h1>
+    <p class="bajada">Las otras 16 existieron: la llamada del martes, el presupuesto que rehiciste,
+      las dos horas de "una consultita". No están en ninguna factura porque no están en ningún lado.</p>
+
+    <!-- El momento. Los bloques los escribe el script con una semilla FIJA:
+         la misma semana en cada visita. Una semana al azar se lee como ruido
+         de fondo; la misma semana siempre se lee como un registro. -->
+    <div class="semana" id="semana">
+      <div class="barrido" aria-hidden="true"></div>
+      <div class="horas" aria-hidden="true"><span></span><span>8</span><span>9</span><span>10</span><span>11</span><span>12</span><span>13</span><span>14</span><span>15</span><span>16</span><span>17</span><span>18</span><span>19</span><span>20</span><span>21</span></div>
+      <div class="grilla" id="grilla" role="img"
+           aria-label="Una semana de trabajo: 31 horas facturadas y 16 horas trabajadas que nunca se facturaron."></div>
+    </div>
+
+    <div class="marcador">
+      <div><span class="cifra" id="cobradas">31</span><span class="que">horas facturadas</span></div>
+      <div><span class="cifra perdido" id="perdidas">16</span><span class="que">horas que trabajaste y nadie cobró</span></div>
+      <div><span class="cifra perdido" id="plata">$ 2.880</span><span class="que">al mes, a tu propia tarifa</span></div>
+    </div>
+  </section>
+
+  <div class="separador" aria-hidden="true">
+    <i></i><i></i><i class="marca"></i><i></i><i></i><i class="marca"></i><i></i><i></i><i></i><i class="marca"></i><i></i><i></i>
+  </div>
+
+  <section>
+    <h2>El problema no es que trabajes de más. Es que no queda registro.</h2>
+    <p>Nadie anota la llamada de doce minutos. Al final del mes la diferencia entre lo que hiciste
+      y lo que cobraste es un número que no aparece en ninguna pantalla — así que no existe, y por
+      lo tanto no se discute con el cliente.</p>
+
+    <div class="pasos">
+      <div class="paso">
+        <span class="tramo" aria-hidden="true"><i class="marca"></i><i class="marca"></i><i class="marca"></i><i class="marca"></i><i></i><i></i><i></i><i></i></span>
+        <div>
+          <h3>Se registran solas</h3>
+          <p>Cada llamada, cada mail respondido y cada archivo tocado queda anotado con su duración
+            real, sin que tengas que acordarte de nada al final del día.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <span class="tramo" aria-hidden="true"><i></i><i></i><i class="marca"></i><i></i><i class="marca"></i><i></i><i class="marca"></i><i></i></span>
+        <div>
+          <h3>Las elegís una por una</h3>
+          <p>Al cierre de la semana ves las horas sueltas al lado de su cliente y decidís cuáles
+            entran en la factura. Las que regalás, quedan documentadas igual.</p>
+        </div>
+      </div>
+      <div class="paso">
+        <span class="tramo" aria-hidden="true"><i class="marca"></i><i class="marca"></i><i class="marca"></i><i class="marca"></i><i class="marca"></i><i class="marca"></i><i class="marca"></i><i></i></span>
+        <div>
+          <h3>Siete días antes de pagar nada</h3>
+          <p>Una semana entera funcionando con tus datos reales. Si el número que aparece el
+            domingo no te sorprende, no lo pagues.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="precio">
+    <div class="n">$ 24 <span>por mes, por persona</span></div>
+    <p>Sin permanencia. Sin implementación. Se conecta al calendario y al mail que ya usás.</p>
+    <a class="cta" href="#empezar">Ver mi semana real</a>
+  </div>
+
+</main>
+
+<footer class="centro">
+  Página de ejemplo de la skill <strong>landing-moment</strong>. El producto no existe: lo que hay
+  que copiar es el mecanismo — un momento derivado de la frase, con el piso mecánico en verde.
+</footer>
+
+<script>
+// ── Determinista: mulberry32 con semilla fija. La misma semana siempre. ──────
+function azar(semilla) {
+  return () => {
+    semilla |= 0; semilla = (semilla + 0x6d2b79f5) | 0;
+    let t = Math.imul(semilla ^ (semilla >>> 15), 1 | semilla);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+const DIAS = ['lun', 'mar', 'mié', 'jue', 'vie', 'sáb', 'dom'];
+const HORAS = 14;                // 8:00 a 22:00, una franja por hora
+const TARIFA = 45;               // para el importe del marcador
+const FACTURADAS = 31, PERDIDAS = 16;   // los números del titular: la forma tiene
+                                        // que llevar exactamente esa información
+
+// Repartimos las horas con la semilla fija y DESPUÉS ajustamos hasta dar justo
+// 31 y 16. Un dibujo que no coincide con el número del titular no es evidencia:
+// es decoración que además contradice el copy.
+const dado = azar(20260826);
+const celdas = [];
+for (let d = 0; d < 7; d++) {
+  for (let h = 0; h < HORAS; h++) {
+    const finde = d >= 5;
+    // Las horas de los bordes del día y del finde son las que nadie factura: no es
+    // azar decorativo, es dónde ocurre de verdad.
+    const alBorde = h < 2 || h > 10 || finde;
+    celdas.push({ d, h, peso: dado() + (alBorde ? 1.2 : 0) - (finde ? .35 : 0) });
+  }
+}
+const orden = [...celdas].sort((a, b) => a.peso - b.peso);
+orden.slice(0, FACTURADAS).forEach(c => c.tipo = 'cobrada');
+orden.slice(orden.length - PERDIDAS).forEach(c => c.tipo = 'perdida');
+
+const grilla = document.getElementById('grilla');
+let retardo = 0;
+for (let d = 0; d < 7; d++) {
+  const fila = document.createElement('div');
+  fila.className = 'dia';
+  const rot = document.createElement('span');
+  rot.className = 'rotulo'; rot.textContent = DIAS[d];
+  fila.appendChild(rot);
+  for (let h = 0; h < HORAS; h++) {
+    const c = celdas[d * HORAS + h];
+    const b = document.createElement('div');
+    b.className = 'bloque' + (c.tipo ? ' ' + c.tipo : '');
+    if (c.tipo === 'perdida') b.style.setProperty('--retardo', (retardo += .05).toFixed(3) + 's');
+    fila.appendChild(b);
+  }
+  grilla.appendChild(fila);
+}
+
+document.getElementById('cobradas').textContent = FACTURADAS;
+document.getElementById('perdidas').textContent = PERDIDAS;
+grilla.setAttribute('aria-label',
+  `Una semana de trabajo: ${FACTURADAS} horas facturadas y ${PERDIDAS} horas trabajadas que nunca se facturaron.`);
+
+// ── El momento pasa UNA VEZ, cuando la semana entra en pantalla ──────────────
+const semana = document.getElementById('semana');
+const plata = document.getElementById('plata');
+const quieto = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function contarPlata() {
+  const total = PERDIDAS * 4 * TARIFA;          // cuatro semanas
+  if (quieto) return;                            // el total ya está en el HTML
+  // El contador NO arranca en cero desde el HTML: si esta pestaña está en segundo
+  // plano, requestAnimationFrame no corre nunca y el visitante encontraría un
+  // "$ 0" que es peor que no animar. El cero se pone recién dentro del primer
+  // cuadro, cuando ya sabemos que la animación está viva.
+  let desde = null;
+  const dura = 1100;
+  const paso = ahora => {
+    if (desde === null) desde = ahora;
+    const t = Math.min(1, (ahora - desde) / dura);
+    const suave = 1 - Math.pow(1 - t, 3);       // salida exponencial
+    plata.textContent = '$ ' + Math.round(total * suave).toLocaleString('es-AR');
+    if (t < 1) requestAnimationFrame(paso);
+  };
+  requestAnimationFrame(paso);
+}
+
+const ojo = new IntersectionObserver(([e]) => {
+  if (!e.isIntersecting) return;
+  semana.classList.add('corrio');
+  setTimeout(contarPlata, quieto ? 0 : 500);
+  ojo.disconnect();                              // una vez, no en loop
+}, { threshold: .35 });
+ojo.observe(semana);
+</script>
+</body>
+</html>

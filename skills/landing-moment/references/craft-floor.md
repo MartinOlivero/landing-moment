@@ -9,7 +9,19 @@ Dos diferencias con la parte creativa de la skill:
 2. Se chequea sobre el **resultado renderizado** en el navegador, no sobre la intención. Leé los
    valores computados (`getComputedStyle`), no lo que dice tu CSS.
 
-Hacelo en una sola pasada de inspección al final, no en siete viajes de capturas.
+Hacelo en una sola pasada de inspección al final, no en siete viajes de capturas. **La mayoría de
+esta lista está automatizada**: `audit.mjs` abre la página en un Chrome de verdad y mide contraste
+real (componiendo las capas translúcidas como las compone el navegador), medida de línea, desborde
+en 390px, si degrada sin JS y con `prefers-reduced-motion`, si la tipografía cargó, y los errores
+de consola. Corré eso primero y revisá a ojo lo que la máquina no puede ver:
+
+```bash
+AUD=$(find ~/.claude/plugins -maxdepth 8 -name audit.mjs -path '*landing-moment*' 2>/dev/null | head -1)
+node "${AUD:-scripts/audit.mjs}" pagina.html        # o http://localhost:5173
+```
+
+Lo que **no** mide y tenés que mirar vos: el espaciado, la profundidad, los estados de los
+controles, el texto de interfaz, la cobertura del brief, y si el momento efectivamente se entiende.
 
 ---
 
@@ -57,6 +69,32 @@ es indecisión, y se ve.
 - **Peso**: los escalones tienen que ser obvios. 400 y 500 juntos no se distinguen; 400 y 700 sí.
 - Corré el **copy real** en cada breakpoint y arreglá lo que desborda. Un titular que en tu
   mockup entra en dos líneas y en producción entra en cuatro es un titular roto.
+
+### Elegir la tipografía (no dejarla para el final)
+
+La skill desaconseja **Inter, Roboto, Geist, Plus Jakarta Sans, Fraunces, Space Grotesk, Poppins,
+Montserrat**: no porque sean malas, sino porque están en tantas páginas generadas con IA que ya no
+dicen nada. El problema es que "elegí otra" sin una lista termina en la misma de siempre. Éstas
+tienen carácter, son gratis y están en Google Fonts:
+
+| Si el mundo es… | Display (títulos) | Texto | Dato / número |
+|---|---|---|---|
+| **Editorial, autoral, de marca** | Gloock · Instrument Serif · Playfair Display | Hanken Grotesk · Source Sans 3 | JetBrains Mono |
+| **Técnico, instrumentos, HUD** | Chakra Petch · Rajdhani · Archivo | IBM Plex Sans · Archivo | IBM Plex Mono · JetBrains Mono |
+| **Industrial, de peso, urgente** | Anton · Archivo Black · Oswald | Barlow · Archivo | Barlow Condensed (números) |
+| **Retro 70/80/90** | Monoton · Bungee · Righteous | Work Sans · Barlow | VT323 · Share Tech Mono |
+| **Institucional serio** | Libre Baskerville · Bitter | Public Sans · Source Sans 3 | Roboto Mono |
+
+Tres reglas que valen más que la elección:
+
+1. **Dos familias, no cuatro.** Una para display, una para texto. La mono es la tercera sólo si la
+   página muestra datos de verdad (horas, precios, métricas, código).
+2. **Un mono de verdad para todo lo que sea un dato.** Es lo que más rápido hace que una página
+   parezca hecha por alguien que sabe: la hora, el importe, la métrica y el ID en monoespaciada.
+3. **Cargala bien o no la elijas.** Peso variable si existe, `font-display: swap`, y **fallback
+   declarado en la misma familia** (`font-family: 'Gloock', Georgia, serif`). Y verificá que
+   cargó: si la CSP del proyecto tiene `font-src 'self'`, el `@import` de Google queda bloqueado
+   en silencio y estás mirando la fuente del sistema sin saberlo. El auditor te lo dice.
 
 ### Espaciado
 Grupos apretados, separación generosa. La regla que más ordena de un saque: **más aire arriba de un

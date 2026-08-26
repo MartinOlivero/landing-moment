@@ -1,7 +1,7 @@
 {
   "name": "landing-moment",
-  "version": "0.1.0",
-  "description": "Build landing pages that don't look like a template. One authored moment derived from the page's own argument — not an effect pulled from a component library — plus a mechanical craft floor and a cliche detector that flags what gives an AI-built page away.",
+  "version": "0.2.0",
+  "description": "Build landing pages that don't look like a template. One authored moment derived from the page's own argument — not an effect pulled from a component library — plus a copy gate, a mechanical craft floor, a cliche detector over the source, and an auditor that measures the rendered page in a real browser (contrast, line measure, mobile 390, reduced-motion, no-JS, fonts).",
   "author": {
     "name": "Martín Olivero / IamAutom",
     "url": "https://iamautom.com"
