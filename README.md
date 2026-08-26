@@ -18,10 +18,21 @@ sentence that carries the page's promise, and build the single moment that makes
 
 ## Install
 
+Inside Claude Code:
+
 ```
 /plugin marketplace add MartinOlivero/landing-moment
-/plugin install landing-moment
+/plugin install landing-moment@landing-moment
 ```
+
+Or from your terminal:
+
+```bash
+claude plugin marketplace add MartinOlivero/landing-moment
+claude plugin install landing-moment@landing-moment
+```
+
+Restart the session afterwards so the skill loads. Check it's there with `claude plugin list`.
 
 ## Use
 
