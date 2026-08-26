@@ -1,6 +1,6 @@
 ---
 name: landing-moment
-description: Use this skill to build, redesign or rescue a landing page, sales page, hero or product section so it does not read as a template. Trigger when the user says "armá una landing", "rediseñá esta página", "hacele algo épico", "que sorprenda", "que no parezca hecho con IA", "está plano", "sumale animaciones", "build me a landing page", "make this hero less generic", "my page looks AI-generated", or asks which component library to use (shadcn, Magic UI, react-bits, Aceternity, cult-ui). Contains the authored-moment method, a copy gate that stops generic headlines before any design, a mechanical craft floor with real typeface alternatives, a full worked example page, two production-tested reference components, a library/licence table, a detector for the tells of an AI-built page, and an auditor that measures the rendered page in a real browser (contrast, line measure, mobile 390px, reduced-motion, no-JS, fonts that failed to load).
+description: Use this skill to build, redesign or rescue a landing page, sales page, hero or product section so it does not read as a template. Trigger when the user says "armá una landing", "rediseñá esta página", "hacele algo épico", "que sorprenda", "que no parezca hecho con IA", "está plano", "sumale animaciones", "build me a landing page", "make this hero less generic", "my page looks AI-generated", or asks which component library to use (shadcn, Magic UI, react-bits, Aceternity, cult-ui). Contains the authored-moment method, a catalogue of seven mechanism families (translate, replay, connect, complete, compare, disassemble, filter) for when nothing comes to mind, a movement score for spreading the gesture across the whole page instead of leaving everything below the hero dead, a copy gate that stops generic headlines before any design, a mechanical craft floor with real typeface alternatives, a full worked example page, two production-tested reference components, a library/licence table, a detector for the tells of an AI-built page, and an auditor that measures the rendered page in a real browser (contrast, line measure, mobile 390px, reduced-motion, no-JS, fonts that failed to load).
 ---
 
 # Landing moment
@@ -39,6 +39,25 @@ Si el efecto se puede sacar y la página dice lo mismo, el efecto sobraba.
 4. Ese sustantivo + esa acción es el momento. Si no aparece nada, el problema es el copy, no el
    diseño — **decilo antes de ponerte a animar**. Ésa es la falla más común y ninguna animación
    la tapa.
+
+### El catálogo: siete familias de mecanismo
+
+Si el paso anterior te dio el sustantivo y la acción pero no sabés qué construir, entrá por acá.
+La columna que manda es la primera: **qué tiene que probar la página**.
+
+| La página tiene que probar… | La familia | El mecanismo | Dónde está |
+|---|---|---|---|
+| Que algo confuso se vuelve claro | **Traducir** | Un filo de luz cruza una vez y a su paso deja el contenido transformado | `references/sweep-vanilla.md` |
+| Que pasó algo que nadie vio | **Reproducir** | Una cinta / línea de tiempo que se toca sola y frena en los momentos clave | `references/tape-react.md` |
+| Que piezas sueltas se vuelven un sistema | **Conectar** | Cajas que viajan a su lugar y cables que se dibujan solos | `references/graph-react.md` |
+| Que falta algo que no se está viendo | **Completar** | Una grilla con lo que sí está, y lo que falta apareciendo encima con un contador que sube | `references/example-page.html` |
+| Que hay dos caminos y uno cuesta caro | **Comparar** | Dos carriles sincronizados con el mismo hecho: arriba sin el producto, abajo con él. Cuidado con la escala — tres segundos al lado de treinta y dos horas necesitan eje logarítmico y rotulado | caso 3 |
+| Que adentro de la caja negra hay partes | **Desarmar** | El objeto se abre en capas separadas, cada una rotulada, y vuelve a cerrarse | — |
+| Que de mucho ruido sale una sola decisión | **Filtrar** | Muchos elementos, la mayoría se apaga, queda uno encendido con su razón al lado | — |
+
+Las dos últimas todavía no tienen componente de referencia escrito: el mecanismo está descrito, el
+código es tuyo. Y si tu página necesita algo que no está en la tabla, **no fuerces una familia**:
+la tabla es un atajo cuando no aparece nada, no un menú del que hay que elegir.
 
 ### Paso 0 — la puerta del copy (obligatorio, antes de tocar CSS)
 
@@ -87,6 +106,10 @@ sí se inventa.
 ### 1. Un momento, no seis efectos
 Una página tiene **un** golpe. Cinco animaciones distintas en cinco secciones se leen como una
 plantilla con los complementos puestos.
+
+⚠️ Esto **no** quiere decir que el resto de la página vaya muerta. Un hero espectacular seguido de
+cuatro pantallas de texto plano falla igual. Cómo se reparte el movimiento sin caer en el circo
+está en *La partitura de movimiento*, más abajo — leelo junto con la regla 2.
 
 ### 2. Ese gesto se repite para unificar la página
 Distinto de lo anterior: el momento es uno, pero **su lenguaje** se repite. El barrido que traduce
@@ -141,6 +164,80 @@ No es burocracia de accesibilidad: es que la página tiene que funcionar para to
 El momento pasa **una vez**, al entrar. Un fondo que se mueve para siempre cansa y compite con el
 texto. Si vale la pena repetirlo, dale al visitante el control con un botón discreto
 (*"↻ escucharla de nuevo"*), no un loop automático.
+
+---
+
+## La partitura de movimiento
+
+La regla 1 dice *un momento, no seis efectos*, y se malinterpreta fácil: **no significa que el
+resto de la página tenga que estar muerta**. Significa que hay **un** golpe y que todo lo demás
+habla su idioma. Una página con un hero espectacular y cuatro pantallas de texto plano abajo es
+tan plantilla como una con seis animaciones distintas — en la primera te quedaste sin nafta en la
+sección dos.
+
+Repartilo en tres papeles, y no más de tres:
+
+| Papel | Cuántos | Cuánto pesa | Qué es |
+|---|---|---|---|
+| **El momento** | Uno | 60-70% del esfuerzo | El golpe del hero. Dura 1 a 2 segundos, pasa una vez, y es el argumento ejecutándose |
+| **Los ecos** | Uno por sección, como máximo | 25-30% | El **mismo gesto**, más chico y más barato, haciendo un trabajo local: el filo que revela cada captura, un cable que se dibuja al lado de un título, el contador que sube cuando entra la sección de precio |
+| **El hilo** | Uno | 5-10% | Lo continuo y **mudo**: el separador que es un tramo de la onda, la marca de tiempo corriendo, la superficie de instrumentos de fondo. No cambia mientras leés, por eso no compite |
+
+### Cómo se saca un eco del momento
+
+Un eco no se inventa: se **degrada** del momento mayor. Tomá su gesto y bajale una dimensión.
+
+- Momento: un barrido que traduce nueve términos → Eco: el mismo barrido revelando **una** captura.
+- Momento: una cinta que se reproduce entera → Eco: **un tramo** de esa cinta como separador, con
+  su timestamp.
+- Momento: nueve nodos que se cablean → Eco: **dos** nodos y un cable dibujándose al lado del
+  título de la sección.
+
+Si el eco necesita un mecanismo nuevo para funcionar, no es un eco: es un segundo momento, y eso
+es lo que la regla 1 prohíbe.
+
+### El ritmo del scroll
+
+Recorré la página como una partitura, sección por sección, y preguntate qué pasa en cada una.
+**Dos bloques de texto largo seguidos sin que ocurra nada es el punto donde se abandona la
+página.** No hace falta una animación cara: alcanza con que algo entre, se revele o cambie de
+estado cuando esa sección llega.
+
+Tres cosas que se leen como vida y cuestan poco:
+1. **Material real que aparece con el gesto del momento** (una captura del producto revelada por el
+   filo, en vez de una card con un ícono).
+2. **Un número que se cuenta al entrar** — pero sólo si el número importa, y escrito en el HTML,
+   no arrancando en cero (si la pestaña está en segundo plano, `requestAnimationFrame` no corre y
+   el visitante encuentra un cero).
+3. **Un estado que cambia bajo el cursor** en algo que ya es del mundo de la página: una fila que
+   se ilumina, una pieza que se levanta, un tramo de la onda que se marca.
+
+### Lo que NO cuenta como movimiento
+
+- **El fade-up idéntico en cada bloque al scrollear.** Es la firma de plantilla más común que
+  existe: si todo entra igual, nada entra. Si vas a usarlo, que sea el gesto del momento, no un
+  `fade-in-up` genérico repetido veinte veces.
+- **Un fondo que se mueve solo para siempre.** Cansa y compite con el texto.
+- **Parallax por el parallax.** Mover algo a otra velocidad no dice nada salvo que la profundidad
+  sea parte del argumento.
+- **Micro-animaciones en todos los botones.** El movimiento es un idioma: si todo lo habla, deja de
+  significar.
+
+### Por qué esto funciona (y no es "porque queda lindo")
+
+Una animación bien elegida hace tres cosas que un párrafo no puede:
+
+1. **Demuestra en vez de afirmar.** "Conectamos tus herramientas" es una promesa. Ver las nueve
+   herramientas cablearse es una prueba. La página deja de pedir que le crean.
+2. **Baja el costo de entender.** Una relación entre nueve cosas se agarra de un vistazo; en texto
+   son tres párrafos que hay que sostener en la cabeza. Lo que el dibujo explica, el copy ya no
+   tiene que explicar — y la página se acorta.
+3. **Le da progreso al scroll.** Cuando algo cambia porque avanzaste, avanzar tiene sentido. Una
+   página que no reacciona se lee como un PDF largo, y un PDF largo se cierra.
+
+Por eso el filtro sigue siendo el de la regla 4: **si la forma se puede cambiar por cualquier otra
+sin perder nada, es relleno**. El movimiento que no prueba, no explica y no marca progreso, sólo
+consume atención — y encima carga la batería del que te está leyendo en el celular.
 
 ---
 
@@ -241,6 +338,7 @@ HUD de la página, y una grilla de fondo que *era* la superficie de instrumentos
 | Una página entera de ejemplo, con su momento, que pasa el detector y el auditor | `references/example-page.html` |
 | Un barrido de luz que revela o transforma algo, en HTML/CSS/JS sin build | `references/sweep-vanilla.md` |
 | Una cinta / línea de tiempo que se reproduce sola y frena en puntos clave (React + canvas) | `references/tape-react.md` |
+| Piezas sueltas que se ordenan en un sistema: cajas que viajan y cables que se dibujan (SVG + CSS) | `references/graph-react.md` |
 | Qué librería de componentes usar, y cuál evitar por licencia | `references/libraries.md` |
 
 Adaptá el **mecanismo**, no copies el contenido: el momento tiene que salir del argumento de la

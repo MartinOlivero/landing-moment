@@ -10,10 +10,11 @@ sentence that carries the page's promise, and build the single moment that makes
 > The skill body is in Spanish (that's the author's working language). The method, the code and the
 > tools are language-agnostic — Claude will apply them to a page in any language.
 
-> **New in 0.2.0** — if you installed 0.1.0, run `/plugin update landing-moment`. It fixes a
-> documented command that never ran, adds a copy gate before any design happens, and adds
-> `audit.mjs`: the craft floor measured on the rendered page in a real browser, with no
-> dependencies. Full list in [CHANGELOG.md](CHANGELOG.md).
+> **New in 0.3.0** — run `/plugin update landing-moment`. Adds the **movement score** (how to keep
+> the whole page alive instead of only the hero), a **catalogue of seven mechanism families** for
+> when nothing comes to mind, and a third production-tested component: the graph that wires itself.
+> 0.2.0 fixed a documented command that never ran and added `audit.mjs`, the craft floor measured in
+> a real browser. Full list in [CHANGELOG.md](CHANGELOG.md).
 
 ## Install
 
@@ -40,10 +41,12 @@ feature, not a bug (see *What this doesn't promise*).
 |---|---|
 | **The authored-moment method** | How to derive one interactive moment from the page's own argument, with four production case studies |
 | **A copy gate** | Three filters the headline must pass before any design happens — a concrete noun, a number or proper name, and a tension. This is the single biggest reason AI landings come out generic |
+| **A catalogue of seven mechanism families** | Entered by what the page has to *prove*: translate · replay · connect · complete · compare · disassemble · filter. For when the method is clear but nothing comes to mind |
+| **A movement score** | How to spread the gesture across the page in three roles — the moment, the echoes, the thread — so it doesn't die after the hero, without turning into a circus. Plus what doesn't count as movement, and why any of it works |
 | **Six build rules** | One moment not six effects · repeat its language to unify the page · deterministic (seeded PRNG, never `Math.random`) · the shape must carry information · degrade properly (reduced-motion, no-JS, mobile) · play once, never loop |
 | **A mechanical craft floor** | Contrast, line measure, type scale, spacing, depth, states, motion — plus a typeface table with real alternatives to the fonts that give an AI page away |
 | **A full example page** | `references/example-page.html` — one self-contained page with its own moment, commented step by step, that passes both tools |
-| **Two reference components** | A light sweep that reveals/transforms (vanilla) and a self-playing timeline (React + canvas). Zero dependencies |
+| **Three reference components** | A light sweep that reveals/transforms (vanilla), a self-playing timeline (React + canvas), and a graph that wires loose pieces into a system (SVG + CSS). Zero dependencies |
 | **A library/licence table** | Which component libraries are worth it, and the two licence traps (react-bits' Commons Clause, origin-ui's AGPL) |
 | **A cliché detector** | `detect.mjs` — 12 rules over the source: gradient text, generic fonts, kickers, flat glows, emoji-as-icons, `Math.random` on load, missing `prefers-reduced-motion`, Google Fonts under a CSP |
 | **A rendered-page auditor** | `audit.mjs` — opens the page in a real Chrome and measures what the source can't tell you |

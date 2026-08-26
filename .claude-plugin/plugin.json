@@ -1,7 +1,7 @@
 {
   "name": "landing-moment",
-  "version": "0.2.0",
-  "description": "Build landing pages that don't look like a template. One authored moment derived from the page's own argument — not an effect pulled from a component library — plus a copy gate, a mechanical craft floor, a cliche detector over the source, and an auditor that measures the rendered page in a real browser (contrast, line measure, mobile 390, reduced-motion, no-JS, fonts).",
+  "version": "0.3.0",
+  "description": "Build landing pages that don't look like a template. One authored moment derived from the page's own argument, echoed across the page with a movement score so the whole thing feels alive — plus a catalogue of seven mechanism families, a copy gate, a mechanical craft floor, a cliche detector, and an auditor that measures the rendered page in a real browser.",
   "author": {
     "name": "Martín Olivero / IamAutom",
     "url": "https://iamautom.com"
@@ -10,17 +10,20 @@
   "repository": "https://github.com/MartinOlivero/landing-moment",
   "license": "MIT",
   "keywords": [
+    "accessibility",
+    "animation",
+    "anti-slop",
+    "canvas",
     "claude-code",
     "claude-code-plugin",
     "claude-skills",
-    "landing-page",
-    "web-design",
-    "frontend",
     "css",
-    "animation",
-    "canvas",
     "design-system",
-    "accessibility",
-    "anti-slop"
+    "frontend",
+    "interaction-design",
+    "landing-page",
+    "motion",
+    "svg",
+    "web-design"
   ]
 }

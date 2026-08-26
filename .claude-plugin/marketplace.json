@@ -11,7 +11,7 @@
     {
       "name": "landing-moment",
       "source": "./",
-      "description": "Design landing pages around one authored moment derived from the copy, with a copy gate, a mechanical craft floor, and two zero-dependency tools: a cliche detector over the source and an auditor that measures the rendered page in a real Chrome. Four production case studies plus a full worked example."
+      "description": "Design landing pages around one authored moment derived from the copy, echoed across the page so it doesn't die after the hero. Seven mechanism families with three production-tested components, a copy gate, a craft floor, and two zero-dependency tools: a cliche detector and a real-browser auditor."
     }
   ]
 }

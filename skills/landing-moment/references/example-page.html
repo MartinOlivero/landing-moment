@@ -148,6 +148,15 @@ section h2 + p { margin-top: 16px; color: var(--tinta-2); }
 .paso .tramo { display: flex; gap: 3px; padding-top: 4px; }
 .paso .tramo i { width: 7px; height: 20px; border-radius: 2px; background: var(--linea); }
 .paso .tramo i.marca { background: var(--ambar); }
+/* El eco: el mismo gesto del hero, degradado. Los bloques ámbar de cada paso se
+   encienden al entrar la sección, escalonados igual que la semana. No es un
+   mecanismo nuevo — es el momento, una dimensión más chico. */
+.js .paso .tramo i.marca { background: var(--linea); }
+.js .paso.visto .tramo i.marca {
+  background: var(--ambar);
+  transition: background .35s ease calc(var(--i, 0) * .07s);
+}
+@media (prefers-reduced-motion: reduce) { .js .paso .tramo i.marca { background: var(--ambar); } }
 .paso h3 { font-size: 19px; font-weight: 600; }
 .paso p { font-size: 15.5px; color: var(--tinta-2); margin-top: 8px; }
 @media (max-width: 640px) { .paso { grid-template-columns: 1fr; gap: 12px; } }
@@ -342,6 +351,17 @@ function contarPlata() {
   };
   requestAnimationFrame(paso);
 }
+
+// El eco de la sección de pasos: mismo gesto, mismo escalonado, una vez cada uno.
+document.querySelectorAll('.paso').forEach(paso => {
+  paso.querySelectorAll('.tramo i').forEach((i, n) => i.style.setProperty('--i', n));
+  const eco = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    paso.classList.add('visto');
+    eco.disconnect();
+  }, { threshold: .5 });
+  eco.observe(paso);
+});
 
 const ojo = new IntersectionObserver(([e]) => {
   if (!e.isIntersecting) return;
