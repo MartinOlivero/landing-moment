@@ -6,9 +6,14 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const EXT = new Set(['.html', '.htm', '.css', '.jsx', '.tsx', '.vue', '.svelte', '.astro']);
+// .js/.ts/.mjs también: un motor vanilla que inyecta su propio CSS desde un string
+// (como el de scroll-world) quedaba invisible y el detector decía "sin señales".
+const EXT = new Set(['.html', '.htm', '.css', '.js', '.mjs', '.ts', '.jsx', '.tsx', '.vue', '.svelte', '.astro']);
 const SALTAR = new Set(['node_modules', '.git', 'dist', 'build', '.next', 'out', 'vendor']);
+// Los scripts del propio plugin nombran todo lo que buscan: escanearlos da falsos positivos.
+const PROPIOS = path.dirname(fileURLToPath(import.meta.url));
 
 // Cada regla: qué buscar y por qué molesta. `umbral` = cuántas veces hace falta para reportar.
 const REGLAS = [
@@ -22,7 +27,9 @@ const REGLAS = [
     dice: 'Fuente que aparece en casi toda página generada con IA. Elegí una con carácter.' },
 
   { id: 'kicker', umbral: 1,
-    re: /class=["'][^"']*\b(kicker|eyebrow|overline|pre-?title)\b/gi,
+    // En el HTML (class="eyebrow") o en el selector CSS, incluido BEM (.hero__eyebrow):
+    // \b no sirve después de "__" porque el guion bajo cuenta como letra.
+    re: /(?:class=["'][^"']*|\.)[\w-]*?(?<![a-z])(kicker|eyebrow|overline|pre-?title)\b/gi,
     dice: 'Kicker/eyebrow arriba del título. El título se sostiene solo.' },
 
   { id: 'glow-plano', umbral: 3,
@@ -65,6 +72,7 @@ const REGLAS = [
 
 function archivos(objetivo) {
   const st = fs.statSync(objetivo);
+  if (path.resolve(st.isFile() ? path.dirname(objetivo) : objetivo) === PROPIOS) return [];
   if (st.isFile()) return [objetivo];
   return fs.readdirSync(objetivo, { withFileTypes: true }).flatMap(d => {
     if (SALTAR.has(d.name) || d.name.startsWith('.')) return [];
@@ -114,6 +122,9 @@ function autotest() {
     ['fuente-generica', 'body { font-family: Archivo, sans-serif; }', false],
     ['fuente-generica', 'body { font-family: system-ui, -apple-system, Roboto, Arial, sans-serif; }', false],
     ['kicker',          '<p class="kicker">NOVEDAD</p>', true],
+    ['kicker',          '.sw-copy__eyebrow{text-transform:uppercase}', true],
+    ['kicker',          '.hero__title{font-weight:700}', false],
+    ['kicker',          "sections: [{ eyebrow: 'From leaf to last sip' }]", false],
     ['sombra-hard',     '.c { box-shadow: 4px 4px 0 #000; }', true],
     ['sombra-hard',     '.c { box-shadow: 0 8px 24px rgba(0,0,0,.12); }', false],
     ['glow-plano',      '.a{box-shadow:0 0 20px rgba(0,0,0,.5)}.b{box-shadow:0 0 20px #fff}.c{box-shadow:0 0 8px var(--x)}', true],

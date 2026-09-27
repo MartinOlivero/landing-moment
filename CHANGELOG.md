@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.3.1 — 2026-09-27
+
+### Fixed
+
+- **The detector was blind to anything inside a script.** It only read `.html/.css/.jsx/.tsx/…`,
+  so a vanilla engine that injects its own CSS from a JS string (the usual shape of a drop-in
+  effect) came back "no template signals" while shipping an uppercase eyebrow above every
+  title. It now reads `.js`, `.mjs` and `.ts` too.
+- **The kicker rule only caught `class="eyebrow"` in markup.** It now also catches the CSS
+  selector, including BEM (`.hero__eyebrow`) — `\b` doesn't fire after `__` because the
+  underscore counts as a word character. Three new autotest cases (17 total).
+- The detector skips the plugin's own `scripts/` folder: both tools name every pattern they look
+  for, so scanning them was pure noise.
+
 ## 0.3.0 — 2026-08-26
 
 The method had one blind spot: it told you to build **one** moment, and people read that as
