@@ -1,6 +1,6 @@
 ---
 name: landing-moment
-description: Use this skill to build, redesign or rescue a landing page, sales page, hero or product section so it does not read as a template. Trigger when the user says "armá una landing", "rediseñá esta página", "hacele algo épico", "que sorprenda", "que no parezca hecho con IA", "está plano", "sumale animaciones", "build me a landing page", "make this hero less generic", "my page looks AI-generated", or asks which component library to use (shadcn, Magic UI, react-bits, Aceternity, cult-ui). Contains the authored-moment method, a catalogue of seven mechanism families (translate, replay, connect, complete, compare, disassemble, filter) for when nothing comes to mind, a movement score for spreading the gesture across the whole page instead of leaving everything below the hero dead, a copy gate that stops generic headlines before any design, a mechanical craft floor with real typeface alternatives, a full worked example page, two production-tested reference components, a library/licence table, a detector for the tells of an AI-built page, and an auditor that measures the rendered page in a real browser (contrast, line measure, mobile 390px, reduced-motion, no-JS, fonts that failed to load).
+description: Use this skill to build, redesign or rescue a landing page, sales page, hero or product section so it does not read as a template. Trigger when the user says "armá una landing", "rediseñá esta página", "hacele algo épico", "que sorprenda", "que no parezca hecho con IA", "está plano", "sumale animaciones", "build me a landing page", "make this hero less generic", "my page looks AI-generated", or asks which component library to use (shadcn, Magic UI, react-bits, Aceternity, cult-ui). Contains the authored-moment method, a catalogue of eight mechanism families (translate, replay, connect, complete, compare, disassemble, filter, traverse) for when nothing comes to mind, a movement score for spreading the gesture across the whole page instead of leaving everything below the hero dead, a copy gate that stops generic headlines before any design, a mechanical craft floor with real typeface alternatives, a full worked example page, two production-tested reference components, a library/licence table, a detector for the tells of an AI-built page, and an auditor that measures the rendered page in a real browser (contrast, line measure, mobile 390px, reduced-motion, no-JS, fonts that failed to load).
 ---
 
 # Landing moment
@@ -40,7 +40,7 @@ Si el efecto se puede sacar y la página dice lo mismo, el efecto sobraba.
    diseño — **decilo antes de ponerte a animar**. Ésa es la falla más común y ninguna animación
    la tapa.
 
-### El catálogo: siete familias de mecanismo
+### El catálogo: ocho familias de mecanismo
 
 Si el paso anterior te dio el sustantivo y la acción pero no sabés qué construir, entrá por acá.
 La columna que manda es la primera: **qué tiene que probar la página**.
@@ -54,6 +54,7 @@ La columna que manda es la primera: **qué tiene que probar la página**.
 | Que hay dos caminos y uno cuesta caro | **Comparar** | Dos carriles sincronizados con el mismo hecho: arriba sin el producto, abajo con él. Cuidado con la escala — tres segundos al lado de treinta y dos horas necesitan eje logarítmico y rotulado | caso 3 |
 | Que adentro de la caja negra hay partes | **Desarmar** | El objeto se abre en capas separadas, cada una rotulada, y vuelve a cerrarse | — |
 | Que de mucho ruido sale una sola decisión | **Filtrar** | Muchos elementos, la mayoría se apaga, queda uno encendido con su razón al lado | — |
+| Que hay un camino de A a B y se puede recorrer | **Recorrer** | Un video que avanza y retrocede con el scroll: el visitante maneja el tiempo. Con material real (grabación de pantalla, una animación propia, video filmado) cuesta $0 | `references/scrub-video.md` |
 
 Las dos últimas todavía no tienen componente de referencia escrito: el mecanismo está descrito, el
 código es tuyo. Y si tu página necesita algo que no está en la tabla, **no fuerces una familia**:
@@ -339,6 +340,7 @@ HUD de la página, y una grilla de fondo que *era* la superficie de instrumentos
 | Un barrido de luz que revela o transforma algo, en HTML/CSS/JS sin build | `references/sweep-vanilla.md` |
 | Una cinta / línea de tiempo que se reproduce sola y frena en puntos clave (React + canvas) | `references/tape-react.md` |
 | Piezas sueltas que se ordenan en un sistema: cajas que viajan y cables que se dibujan (SVG + CSS) | `references/graph-react.md` |
+| Un video que avanza con el scroll (Recorrer, o Reproducir con material real), sin build y sin costo | `references/scrub-video.md` |
 | Qué librería de componentes usar, y cuál evitar por licencia | `references/libraries.md` |
 
 Adaptá el **mecanismo**, no copies el contenido: el momento tiene que salir del argumento de la

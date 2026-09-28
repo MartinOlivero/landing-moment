@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.4.0 — 2026-09-27
+
+### Added
+
+- **An eighth family: traverse** — for when the page has to prove *there is a path from A to B*.
+  `references/scrub-video.md`: a video that moves forward and back with the scroll, the visitor
+  holding the clock. Vanilla, no build, ~50 lines, and **free**: the source is a screen
+  recording of the product, an animation rendered locally (Remotion, HyperFrames, Blender) or
+  filmed footage. The same mechanism covers *replay* with real material.
+- The phone and iOS fixes come from [scroll-world](https://github.com/oso95/scroll-world)
+  (MIT, © 2026 cyw), credited in the code: load the clip as a Blob (seekable even when the host
+  ignores Range requests), never seek while the decoder is still seeking, keep the poster until
+  the first `seeked`, prime muted videos on first touch, `svh` instead of `dvh`. scroll-world
+  itself is listed as the paid option (AI-generated worlds, ~USD 11-27 a page) — never required.
+- Encoding recipe (`-g 8` desktop, 720 wide `-g 4` mobile, `crf 20`, `+faststart`) and the
+  degradation contract: without JS or with reduced-motion the section collapses to the **final
+  frame**, not three screens of empty scroll.
+
+Verified in a real Chrome against `python -m http.server` (no Range support, the worst case):
+25 % → 1.99 s, 50 % → 3.99 s, 100 % → 7.99 s of an 8 s clip, and back to 0 scrolling up.
+
 ## 0.3.1 — 2026-09-27
 
 ### Fixed

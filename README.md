@@ -10,11 +10,11 @@ sentence that carries the page's promise, and build the single moment that makes
 > The skill body is in Spanish (that's the author's working language). The method, the code and the
 > tools are language-agnostic — Claude will apply them to a page in any language.
 
-> **New in 0.3.0** — run `/plugin update landing-moment`. Adds the **movement score** (how to keep
-> the whole page alive instead of only the hero), a **catalogue of seven mechanism families** for
-> when nothing comes to mind, and a third production-tested component: the graph that wires itself.
-> 0.2.0 fixed a documented command that never ran and added `audit.mjs`, the craft floor measured in
-> a real browser. Full list in [CHANGELOG.md](CHANGELOG.md).
+> **New in 0.4.0** — run `/plugin update landing-moment`. Adds an eighth family, **traverse**: a
+> video that moves forward and back with the scroll, vanilla and free — the source is a screen
+> recording, a locally rendered animation or filmed footage. 0.3.1 fixed a detector blind spot (CSS
+> injected from a `.js` file was invisible). 0.3.0 added the **movement score** and the mechanism
+> catalogue. Full list in [CHANGELOG.md](CHANGELOG.md).
 
 ## Install
 
@@ -52,7 +52,7 @@ feature, not a bug (see *What this doesn't promise*).
 |---|---|
 | **The authored-moment method** | How to derive one interactive moment from the page's own argument, with four production case studies |
 | **A copy gate** | Three filters the headline must pass before any design happens — a concrete noun, a number or proper name, and a tension. This is the single biggest reason AI landings come out generic |
-| **A catalogue of seven mechanism families** | Entered by what the page has to *prove*: translate · replay · connect · complete · compare · disassemble · filter. For when the method is clear but nothing comes to mind |
+| **A catalogue of eight mechanism families** | Entered by what the page has to *prove*: translate · replay · connect · complete · compare · disassemble · filter · traverse. For when the method is clear but nothing comes to mind |
 | **A movement score** | How to spread the gesture across the page in three roles — the moment, the echoes, the thread — so it doesn't die after the hero, without turning into a circus. Plus what doesn't count as movement, and why any of it works |
 | **Six build rules** | One moment not six effects · repeat its language to unify the page · deterministic (seeded PRNG, never `Math.random`) · the shape must carry information · degrade properly (reduced-motion, no-JS, mobile) · play once, never loop |
 | **A mechanical craft floor** | Contrast, line measure, type scale, spacing, depth, states, motion — plus a typeface table with real alternatives to the fonts that give an AI page away |
